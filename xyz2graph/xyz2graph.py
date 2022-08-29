@@ -37,20 +37,7 @@ class MolGraph:
                 self.y.append(float(y))
                 self.z.append(float(z))
         self.atomic_radii = [atomic_radii[element] for element in self.elements]
-        self._generate_adjacency_list()
-
-    def _generate_adjacency_list(self):
-        """Generates an adjacency list from atomic cartesian coordinates."""
-        node_ids = range(len(self.elements))
-        for i, j in combinations(node_ids, 2):
-            x_i, y_i, z_i = self.__getitem__(i)[1]
-            x_j, y_j, z_j = self.__getitem__(j)[1]
-            distance = sqrt((x_i - x_j) ** 2 + (y_i - y_j) ** 2 + (z_i - z_j) ** 2)
-            if 0.1 < distance < (self.atomic_radii[i] + self.atomic_radii[j]) * 1.3:
-                self.adj_list.setdefault(i, set()).add(j)
-                self.adj_list.setdefault(j, set()).add(i)
-                self.bond_lengths[frozenset([i, j])] = round(distance, 5)
-
+       
     def edges(self):
         """Creates an iterator with all graph edges."""
         edges = set()
